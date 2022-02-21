@@ -9,27 +9,25 @@ import UIKit
 class ViewController: UIViewController {
 
     lazy var game = Concentration(numberOfPairOfCards: (cardButtons.count + 1) / 2)
-    
+
+    // Flip Count
+    @IBOutlet weak var flipCountLabel: UILabel!
     var flipCount = 0 {
         didSet {
-            flipCountLabel.text = "Flips: \(flipCount)"
+
         }
     }
 
-    @IBOutlet weak var flipCountLabel: UILabel!
+    // Card Buttons -> what happens when you touch
     @IBOutlet var cardButtons: [UIButton]!
-
     @IBAction func touchCard(_ sender: UIButton) {
-        flipCount += 1
         if let cardNumber = cardButtons.firstIndex(of: sender) {
-            //flipCard(withEmoji: emojiChoises[cardNumber], on: sender)
             game.choseCard(at: cardNumber)
             updateViewFromModel()
         } else {
-            print("Chosen card was not in cardButtons")
+            print("Chosen card was not in cardButtons Outlet Collection")
         }
     }
-
     func updateViewFromModel() {
         for index in cardButtons.indices {
             let button = cardButtons[index]
@@ -42,36 +40,32 @@ class ViewController: UIViewController {
                 button.backgroundColor = card.isMatched ? UIColor.clear : UIColor.orange
             }
         }
+        flipCountLabel.text = "Flips: \(game.flipCount)"
     }
 
-    //var emojiChoises = ["☀️","🌧","⚡️","☀️","🌧","⚡️"]
-    var emojiChoises = ["☀️","🌧","⚡️", "🌈", "❄️", "🌪", "⛈" ,"🌬","🌦","🌒"]
-
-    var emoji = [Int:String]()  // special syntax for dictionary
-
+    // Emojis
+    var emojiChoises = ["🎻","🎹","🎷", "🎺", "🎸", "🪕", "🪘" ,"🎤","🎼","🪗"]
+    var emoji = [Int:String]()
     func emoji(for card: Card) -> String {
         if emoji[card.identifier] == nil, emojiChoises.count > 0 {
             let randomIndex = Int(arc4random_uniform(UInt32(emojiChoises.count)))
             emoji[card.identifier] = emojiChoises.remove(at: randomIndex)
         }
-//        if chosenEmoji = emoji[card.identifier] != nil {
-//            return emoji[card.identifier]!
-//        } else {
-//            return "?"
-//        }
-// same thing as:
         return emoji[card.identifier] ?? "?"
     }
 
-//    func flipCard(withEmoji emoji: String, on button: UIButton){
-//        if button.currentTitle == emoji {
-//            button.setTitle("", for: UIControl.State.normal)
-//            button.backgroundColor = UIColor.orange
-//        } else {
-//            button.setTitle(emoji, for: UIControl.State.normal)
-//            button.backgroundColor = UIColor.white
-//        }
-//    }
+    @IBAction func newGame(_ sender: UIButton) {
+        game.resetGame()
+        updateViewFromModel()
+    }
+
+
+    var sportsEmojiChoises = ["🏀","⚽️","🥎", "🏐", "🏓", "🎱", "🏉" ,"🏸","🥊","🏹"]
+    var foodEmojiChoises = ["🍎","🫐","🍉", "🍇", "🍍", "🥝", "🥥" ,"🍒","🍋","🍊"]
+    var vegetablesEmojiChoises = ["🧄","🌶","🍅", "🥒", "🥬", "🥦", "🥕" ,"🫒","🥔","🧅"]
+    var fashionEmojiChoises = ["👘","👠","👢", "👔", "👞", "👒", "🪡" ,"🧵","👗","👛"]
+    var animalsEmojiChoises = ["🦁","🐰","🐨", "🐔", "🦊", "🐻", "🐒" ,"🐴","🐢","🐬"]
+
 
 }
 
