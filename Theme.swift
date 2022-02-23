@@ -18,5 +18,4 @@ struct Theme {
         self.name = name
         self.cardBackgroundColor = cardBackgroundColor
     }
-
 }

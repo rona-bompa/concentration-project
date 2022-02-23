@@ -20,17 +20,38 @@ final class Concentration {
     ]
 
     var theme: Theme
-    var cards = [Card]()
-
-    // "vector de frecventa"
-    var historyOfCardChoises = [Int:Int]() // Int1 = card identifier, Int2 = 0 - seen once, 1 - seen again, > 1 - seen again & again
-
-    var indexOfOneAndOnlyFaceUpCard: Int?
+    private(set) var cards = [Card]()
 
     var flipCount = 0
     var score = 0
 
+    // "vector de frecventa"
+    var historyOfCardChoises = [Int:Int]() // Int1 = card identifier, Int2 = 0 - seen once, 1 - seen again, > 1 - seen again & again
+
+    // computed property
+    private var indexOfOneAndOnlyFaceUpCard: Int? {
+        get {
+            var foundIndex: Int?
+            for index in cards.indices { // searching through all the faceUp cards
+                if cards[index].isFaceUp {
+                    if foundIndex == nil { // there is 1 faceUp card
+                        foundIndex = index
+                    } else { // there are 2 or 0 faceUp cards, so we return nil
+                        return nil
+                    }
+                }
+            }
+            return foundIndex
+        }
+        set(newValue) {
+            for index in cards.indices {
+                cards[index].isFaceUp = (index == newValue) // faceUp = false for all cards except the one and only
+            }
+        }
+    }
+
     init(numberOfPairOfCards: Int) {
+        assert(numberOfPairOfCards > 0, "Concentration.init(\(numberOfPairOfCards)): you must have at least one pair of cards")
         for _ in 1...numberOfPairOfCards {
             let card = Card()
             cards += [card, card]
@@ -41,6 +62,7 @@ final class Concentration {
 
     // game logic
     func choseCard(at currIndex: Int) {
+        assert(cards.indices.contains(currIndex), "Concentration.chooseCard(at: \(currIndex)): chosen index not in the cards")
         flipCount += 1
 
         // gonna igonre all the matched cards
@@ -68,17 +90,20 @@ final class Concentration {
                     }
                 }
                 cards[currIndex].isFaceUp = true
-                indexOfOneAndOnlyFaceUpCard = nil
+                // did it in the indexOfOneAndOnlyFaceUp computed property
+//                indexOfOneAndOnlyFaceUpCard = nil
 
             } else {
-                // case B) 2 cards are face up (matching or not matching)
-                for flipDownIndex in cards.indices {
-                    cards[flipDownIndex].isFaceUp = false //all the cards face down
-                }
+                // did it in the indexOfOneAndOnlyFaceUp computed property (case B & C)
+//                 case B) 2 cards are face up (matching or not matching)
+//                for flipDownIndex in cards.indices {
+//                    cards[flipDownIndex].isFaceUp = false //all the cards face down
+//                }
+//                 case C) 0 face up cards
+//                cards[currIndex].isFaceUp = true // the one picked -> face up
 
-                // case C) 0 face up cards
-                cards[currIndex].isFaceUp = true // the one picked -> face up
                 indexOfOneAndOnlyFaceUpCard = currIndex
+
                 // if this card is new, then add it to the dictionary:
                 if historyOfCardChoises[cards[currIndex].identifier] == nil {
                     historyOfCardChoises[cards[currIndex].identifier] = 0

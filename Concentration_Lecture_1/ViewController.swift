@@ -8,9 +8,13 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    lazy var game = Concentration(numberOfPairOfCards: (cardButtons.count + 1) / 2)
-    lazy var emojiChoises = game.theme.emojis
-    var emoji = [Int:String]()
+    private lazy var game = Concentration(numberOfPairOfCards: numberOfPairOfCards)
+    private var numberOfPairOfCards: Int {
+            return (cardButtons.count + 1) / 2 // if it's readonly, we can skip the "get"
+    }
+
+    private lazy var emojiChoises = game.theme.emojis
+    private var emoji = [Int:String]()
 
     @IBOutlet weak var flipCountLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
@@ -29,8 +33,8 @@ class ViewController: UIViewController {
         } else {
             print("Chosen card was not in cardButtons Outlet Collection")
         }
-
     }
+
     func updateViewFromModel() {
         for index in cardButtons.indices {
             let button = cardButtons[index]
@@ -46,28 +50,38 @@ class ViewController: UIViewController {
         flipCountLabel.text = "Flips: \(game.flipCount)"
         scoreLabel.text = "Score: \(game.score)"
     }
-    
-    // Emojis
-        func emoji(for card: Card) -> String {
-            if emoji[card.identifier] == nil, emojiChoises.count > 0 {
-                let randomIndex = Int(arc4random_uniform(UInt32(emojiChoises.count)))
-                emoji[card.identifier] = emojiChoises.remove(at: randomIndex)
-            }
-            return emoji[card.identifier] ?? "?"
-        }
 
-        @IBAction func newGame(_ sender: UIButton) {
-            game.resetGame() // poate e async
-            emojiChoises.removeAll()
-            emojiChoises = game.theme.emojis
-            emoji.removeAll() // resetez dictionaru
-            // reset the buttons
-            for index in cardButtons.indices {
-                let button = cardButtons[index]
-                button.setTitle("", for: UIControl.State.normal)
-                button.backgroundColor = game.theme.cardBackgroundColor
-            }
-            updateViewFromModel()
+    private func emoji(for card: Card) -> String {
+        if emoji[card.identifier] == nil, emojiChoises.count > 0 {
+            let randomIndex = emojiChoises.count.arc4random
+            emoji[card.identifier] = emojiChoises.remove(at: randomIndex)
         }
+        return emoji[card.identifier] ?? "?"
+    }
+
+    @IBAction func newGame(_ sender: UIButton) {
+        game.resetGame()
+        emojiChoises.removeAll()
+        emojiChoises = game.theme.emojis
+        emoji.removeAll() // reset dictonary of identifiers & emojis
+        // reset the buttons
+        for index in cardButtons.indices {
+            let button = cardButtons[index]
+            button.setTitle("", for: UIControl.State.normal)
+            button.backgroundColor = game.theme.cardBackgroundColor
+        }
+        updateViewFromModel()
+    }
 }
 
+extension Int {
+    var arc4random: Int {
+        if self > 0 {
+            return Int(arc4random_uniform(UInt32(self)))  // self = emojiChoises.count (the upper limit of arc4random func it's itself)
+        } else if self < 0 {
+            return -Int(arc4random_uniform(UInt32(self)))
+        } else {
+            return 0
+        }
+    }
+}
