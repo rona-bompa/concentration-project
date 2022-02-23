@@ -15,6 +15,7 @@
 		933702B827BFA18000194F67 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 933702B627BFA18000194F67 /* LaunchScreen.storyboard */; };
 		933702C127BFCA6700194F67 /* Concentration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933702C027BFCA6700194F67 /* Concentration.swift */; };
 		933702C327BFCB2000194F67 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933702C227BFCB2000194F67 /* Card.swift */; };
+		93583FBD27C4D9A1006CDD7A /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93583FBC27C4D9A1006CDD7A /* Theme.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		933702B927BFA18000194F67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		933702C027BFCA6700194F67 /* Concentration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Concentration.swift; sourceTree = "<group>"; };
 		933702C227BFCB2000194F67 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		93583FBC27C4D9A1006CDD7A /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 		933702AA27BFA17D00194F67 /* Concentration_Lecture_1 */ = {
 			isa = PBXGroup;
 			children = (
+				93583FBC27C4D9A1006CDD7A /* Theme.swift */,
 				933702BF27BFA19200194F67 /* Supporting Files */,
 				933702AF27BFA17D00194F67 /* ViewController.swift */,
 				933702C027BFCA6700194F67 /* Concentration.swift */,
@@ -155,6 +158,7 @@
 				933702B027BFA17D00194F67 /* ViewController.swift in Sources */,
 				933702C127BFCA6700194F67 /* Concentration.swift in Sources */,
 				933702C327BFCB2000194F67 /* Card.swift in Sources */,
+				93583FBD27C4D9A1006CDD7A /* Theme.swift in Sources */,
 				933702AC27BFA17D00194F67 /* AppDelegate.swift in Sources */,
 				933702AE27BFA17D00194F67 /* SceneDelegate.swift in Sources */,
 			);
