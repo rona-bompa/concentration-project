@@ -9,8 +9,8 @@ import UIKit
 class ViewController: UIViewController {
 
     lazy var game = Concentration(numberOfPairOfCards: (cardButtons.count + 1) / 2)
-    var emoji = [Int:String]()
     lazy var emojiChoises = game.theme.emojis
+    var emoji = [Int:String]()
 
     @IBOutlet weak var flipCountLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
@@ -57,13 +57,17 @@ class ViewController: UIViewController {
         }
 
         @IBAction func newGame(_ sender: UIButton) {
-            game.resetGame()
-            //???
-            //emojiChoises.removeAll()
-            //emojiChoises = game.theme.emojis
+            game.resetGame() // poate e async
+            emojiChoises.removeAll()
+            emojiChoises = game.theme.emojis
+            emoji.removeAll() // resetez dictionaru
+            // reset the buttons
+            for index in cardButtons.indices {
+                let button = cardButtons[index]
+                button.setTitle("", for: UIControl.State.normal)
+                button.backgroundColor = game.theme.cardBackgroundColor
+            }
             updateViewFromModel()
         }
-
-
 }
 

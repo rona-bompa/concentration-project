@@ -19,13 +19,16 @@ final class Concentration {
         Theme(emojis: ["🦁","🐰","🐨", "🐔", "🦊", "🐻", "🐒" ,"🐴","🐢","🐬"], name: "Animals", cardBackgroundColor: UIColor.brown)
     ]
 
-    var cards = [Card]()
     var theme: Theme
+    var cards = [Card]()
+
+    // "vector de frecventa"
+    var historyOfCardChoises = [Int:Int]() // Int1 = card identifier, Int2 = 0 - seen once, 1 - seen again, > 1 - seen again & again
 
     var indexOfOneAndOnlyFaceUpCard: Int?
+
     var flipCount = 0
     var score = 0
-    var historyOfCardChoises = [Int:Int]() // identifier si de cate ori a aparut
 
     init(numberOfPairOfCards: Int) {
         for _ in 1...numberOfPairOfCards {
@@ -36,6 +39,7 @@ final class Concentration {
         self.theme = themes[Int(arc4random_uniform(UInt32(themes.count)))]
     }
 
+    // game logic
     func choseCard(at currIndex: Int) {
         flipCount += 1
 
@@ -78,6 +82,9 @@ final class Concentration {
                 // if this card is new, then add it to the dictionary:
                 if historyOfCardChoises[cards[currIndex].identifier] == nil {
                     historyOfCardChoises[cards[currIndex].identifier] = 0
+                } else {
+                // if not, mark as seen again
+                    historyOfCardChoises[cards[currIndex].identifier]! += 1
                 }
             }
         }

@@ -18,11 +18,5 @@ struct Theme {
         self.name = name
         self.cardBackgroundColor = cardBackgroundColor
     }
-//
-//    init() {
-//        emojis =  ["🎻","🎹","🎷", "🎺", "🎸", "🪕", "🪘" ,"🎤","🎼","🪗"]
-//        name = "Music"
-//        cardBackgroundColor = UIColor.orange
-//    }
 
 }
