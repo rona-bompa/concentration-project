@@ -63,7 +63,7 @@ final class Concentration {
                         score -= 1
                     }
                     // if the previous was seen, penalty -1
-                    if let history = historyOfCardChoises[cards[prevIndex].identifier], history > 0 {
+                    if let history = historyOfCardChoises[cards[prevIndex].identifier], history > 1 {
                         score -= 1
                     }
                 }
